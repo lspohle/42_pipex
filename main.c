@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 09:21:26 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/20 12:51:07 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/20 13:12:00 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ int	close_files(int file_fd[2], int errnum)
 	return(0);
 }
 
+int	display_error(int errnum)
+{
+	ft_printf(RED"Error: "ESC"%s\n", strerror(errnum));
+	return(0);
+}
+
 int main(int argc, char **argv)
 {
 	int	pipe_fd[2];
@@ -28,12 +34,14 @@ int main(int argc, char **argv)
 	int pipe_id;
 	char y;
 	
-	file_fd[0] = open(argv[1], O_RDONLY);
-	file_fd[1] = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	if (file_fd[0] == -1 || file_fd[1] == -1)	
-		return(close_files(file_fd, errno));
 	if (argc != 5)
-		return(0);
+		return(display_error(EINVAL));
+	file_fd[0] = open(argv[1], O_RDONLY);
+	if (file_fd[0] == -1)
+		return(display_error(errno));
+	file_fd[1] = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	if (file_fd[1] == -1)	
+		return(display_error(errno));
 	if (pipe(pipe_fd) == -1)
 		return (0);
 	pipe_id = fork();
