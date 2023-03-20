@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 09:21:26 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/20 13:12:00 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/20 15:57:21 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ int main(int argc, char **argv)
 	if (file_fd[1] == -1)	
 		return(display_error(errno));
 	if (pipe(pipe_fd) == -1)
-		return (0);
+		return(display_error(errno));
 	pipe_id = fork();
 	if (pipe_id == -1)
-		return(0);	
+		return(display_error(errno));
 	else if (pipe_id == 0)
 	{
 		dup2(pipe_fd[1], 1);
@@ -65,6 +65,12 @@ int main(int argc, char **argv)
 			write(file_fd[1], &y, sizeof(char));
 		wait(NULL);
 	}
+	/bin/ls
+	char* str[] = { "Heute", "Morgen", NULL };
+	char* envp[] = { "some", "environment", NULL };
+	if (execve("./test", str, envp) == -1)
 	return(close_files(file_fd, 0));
 	ft_printf("%s", argv[argc]);
 }
+
+
