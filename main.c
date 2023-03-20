@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 09:21:26 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/20 15:57:21 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/20 17:23:18 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,12 @@ int main(int argc, char **argv)
 	int	pipe_fd[2];
 	int	file_fd[2];
 	int pipe_id;
-	char y;
+	char path[] = "/bin/ls";
+	char *str[] = {"ls", "-l", NULL};
+	char *envp[] = {"/usr/bin/env", NULL};
+	char path1[] = "/usr/bin/wc";
+	char *str1[] = {"wc", "-c", NULL};
+	char *envp1[] = {"/usr/bin/env", NULL};
 	
 	if (argc != 5)
 		return(display_error(EINVAL));
@@ -52,8 +57,9 @@ int main(int argc, char **argv)
 		dup2(pipe_fd[1], 1);
 		close(pipe_fd[1]);
 		close(pipe_fd[0]);
-		if (ft_printf("%s", "HELLO WORLD") == -1)
-			return(0);
+		execve(path, str, envp);
+		// if (ft_printf("%s", "HELLO WORLD") == -1)
+		// 	return(0);
 	}
 	else
 	{
@@ -61,14 +67,11 @@ int main(int argc, char **argv)
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 		ft_printf("Got from child process: ");
-		while (read(0, &y, sizeof(char)) > 0)
-			write(file_fd[1], &y, sizeof(char));
+		// while (read(0, &y, sizeof(char)) > 0)
+		// 	write(file_fd[1], &y, sizeof(char));
+		execve(path1, str1, envp1);
 		wait(NULL);
 	}
-	/bin/ls
-	char* str[] = { "Heute", "Morgen", NULL };
-	char* envp[] = { "some", "environment", NULL };
-	if (execve("./test", str, envp) == -1)
 	return(close_files(file_fd, 0));
 	ft_printf("%s", argv[argc]);
 }
