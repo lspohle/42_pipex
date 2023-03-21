@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:13:46 by lspohle           #+#    #+#             */
-/*   Updated: 2023/01/12 15:16:30 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/21 13:35:57 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	*check_for_line(int fd, char **remainder, char *line, int *inf)
 // Returns NULL if an error occurred or there is no line left
 char	*get_next_line(int fd)
 {
-	static char	*remainder[256]; // launchctl limit maxfiles
+	static char	*remainder[256];
 	char		*line;
 	int			inf;
 
@@ -117,54 +117,3 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
-
-// #include <stdio.h>
-// #include <fcntl.h>
-// #define GREEN "\e[38;5;41m"
-// #define ESCAPE "\033[0m"
-
-// int main(void)
-// {
-// 	int		fd = open("text.txt", O_RDONLY);
-// 	int		fd2 = open("text2.txt", O_RDONLY);
-
-// 	char	*line;
-
-// 	printf(GREEN"\nFile descriptor:"ESCAPE" %i\n", fd);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-
-// 	printf(GREEN"\nFile descriptor:"ESCAPE" %i\n", fd2);
-// 	line = get_next_line(fd2);
-// 	printf("%s", line);
-// 	free(line);
-// 	line = get_next_line(fd2);
-// 	printf("%s", line);
-// 	free(line);
-// 	line = get_next_line(fd2);
-// 	printf("%s", line);
-// 	free(line);
-
-// 	printf(GREEN"\nFile descriptor:"ESCAPE" %i\n", fd);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-
-// 	close(fd);
-// }

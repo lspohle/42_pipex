@@ -2,13 +2,15 @@ NAME			= pipex
 
 LIBFT			= libft
 
-SRCS			= main.c
+SRCS			= main.c \
+				  path.c \
+				  process.c
 
 OBJS			= ${SRCS:.c=.o}
 
 CC				= cc
 
-CFLAGS			= -Wall -Wextra -Werror
+CFLAGS			= -Wall -Wextra -Werror -g -O0
 
 RM				= rm -f
 
