@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 11:46:16 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/21 13:44:22 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/22 11:24:55 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # define RED "\e[38;5;196m"
 # define ESC "\033[0m"
 
+# define STDIN 0
+# define STDOUT 1
+
 typedef struct s_data
 {
 	int		argc;
@@ -37,7 +40,7 @@ typedef struct s_data
 }				t_data;
 
 int		ft_pipex(t_data pipex);
-void	display_error(int errnum);
+void	display_error(int exit_code);
 char	*get_env_path(char **envp);
 char	*get_cmd_path(t_data *pipex, char *cmd);
 void	process_parent(t_data pipex);

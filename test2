@@ -1,0 +1,14 @@
+total 192
+-rw-r--r--   1 lspohle  2022_wolfsburg    501 Mar 21 13:47 Makefile
+-rw-r--r--   1 lspohle  2022_wolfsburg     32 Mar 21 13:45 infile
+drwxr-xr-x  95 lspohle  2022_wolfsburg   3230 Mar 22 14:06 libft
+-rw-r--r--   1 lspohle  2022_wolfsburg   1955 Mar 22 14:06 main.c
+-rw-r--r--   1 lspohle  2022_wolfsburg   4168 Mar 22 14:06 main.o
+-rw-r--r--   1 lspohle  2022_wolfsburg     18 Mar 22 13:49 output
+-rw-r--r--   1 lspohle  2022_wolfsburg   1629 Mar 21 13:44 path.c
+-rw-r--r--   1 lspohle  2022_wolfsburg   3668 Mar 22 14:06 path.o
+-rwxr-xr-x   1 lspohle  2022_wolfsburg  51624 Mar 22 14:06 pipex
+-rw-r--r--   1 lspohle  2022_wolfsburg   1599 Mar 22 11:24 pipex.h
+-rw-r--r--   1 lspohle  2022_wolfsburg   1735 Mar 22 14:06 process.c
+-rw-r--r--   1 lspohle  2022_wolfsburg   3688 Mar 22 14:06 process.o
+-rw-r--r--   1 lspohle  2022_wolfsburg      0 Mar 22 14:07 test2

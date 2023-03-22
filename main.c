@@ -6,16 +6,16 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 09:21:26 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/21 13:40:39 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/22 14:20:28 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	display_error(int errnum)
+void	display_error(int exit_code)
 {
-	ft_printf(RED"Error: "ESC"%s\n", strerror(errnum));
-	exit (1);
+	perror(RED"Error"ESC);
+	exit (exit_code);
 }
 
 int	ft_pipex(t_data pipex)
@@ -37,16 +37,16 @@ int	main(int argc, char **argv, char **envp)
 	t_data	pipex;
 
 	if (argc != 5)
-		display_error(EINVAL);
+		display_error(1);
 	pipex.argc = argc;
 	pipex.argv = argv;
 	pipex.envp = envp;
 	pipex.file_fd[0] = open(pipex.argv[1], O_RDONLY);
 	if (pipex.file_fd[0] == -1)
-		display_error(errno);
-	pipex.file_fd[1] = open(pipex.argv[4], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		display_error(1);
+	pipex.file_fd[1] = open(pipex.argv[argc - 1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (pipex.file_fd[1] == -1)
-		display_error(errno);
+		display_error(1);
 	ft_pipex(pipex);
 	while (*pipex.env_paths != NULL)
 		free (*pipex.env_paths);
@@ -55,3 +55,13 @@ int	main(int argc, char **argv, char **envp)
 	close(pipex.file_fd[1]);
 	return (0);
 }
+
+// int	main(int argc, char **argv)
+// {
+// 	while (*argv != NULL && argc != 0)
+// 	{
+// 		ft_printf(GREEN"%s\n"ESC, *argv);
+// 		argv++;
+// 	}
+// 	ft_printf(CYAN"%i\n"ESC, argc);
+// }
