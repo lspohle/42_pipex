@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 13:39:57 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/21 13:44:47 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/22 20:49:15 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,8 @@ char	*get_cmd_path(t_data *pipex, char *cmd)
 		pipex->env_paths++;
 		free (cmd_path);
 	}
+	while (*pipex->env_paths != NULL)
+		free (*pipex->env_paths);
+	free (*pipex->env_paths);
 	return (NULL);
 }
