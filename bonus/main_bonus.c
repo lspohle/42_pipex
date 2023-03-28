@@ -1,35 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 09:21:26 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/28 12:09:32 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/28 21:52:57 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-// void	print_arr(char **arr)
-// {
-// 	int i;
-	
-// 	i = -1;
-// 	while (arr[++i] != NULL)
-// 		ft_printf(GREEN"Arr[%i]: %s\n"ESC, i, arr[i]);
-// 	ft_printf(GREEN"Arr[%i]: %s\n"ESC, i, arr[i]);
-// }
-
 static int	iterate_through_cmds(t_data *pipex)
 {
 	int		i;
-		
+
 	dup2(pipex->file_fd[0], STDIN_FILENO);
 	close(pipex->file_fd[0]);
 	i = 1;
-	while (pipex->argv[++i + 1]!= NULL)
+	while (pipex->argv[++i + 1] != NULL)
 	{
 		if (pipe(pipex->pipe_fd) == -1)
 			exit_cmd_failed("pipe");
@@ -53,7 +43,8 @@ int	main(int argc, char **argv, char **envp)
 	pipex.argc = argc;
 	pipex.argv = argv;
 	pipex.envp = envp;
-	pipex.file_fd[1] = open(pipex.argv[argc - 1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	pipex.file_fd[1] = open(pipex.argv[argc - 1],
+			O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (pipex.file_fd[1] == -1)
 		exit_open_failed(pipex.argv[argc - 1], -1);
 	pipex.file_fd[0] = open(pipex.argv[1], O_RDONLY);
