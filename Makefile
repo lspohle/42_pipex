@@ -2,17 +2,17 @@ NAME			= pipex
 
 LIBFT			= libft
 
-SRCS			= main.c \
-				  execute.c \
-				  exit.c \
-				  special_split.c \
-				  split_utils.c
+SRCS			= scrs/main.c \
+				  scrs/execute.c \
+				  scrs/exit.c \
+				  scrs/special_split.c \
+				  scrs/split_utils.c
 
 OBJS			= ${SRCS:.c=.o}
 
 CC				= cc
 
-CFLAGS			= -Wall -Wextra -Werror -g
+CFLAGS			= -Wall -Wextra -Werror 
 
 RM				= rm -f
 
