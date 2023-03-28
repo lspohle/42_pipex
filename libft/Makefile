@@ -23,24 +23,24 @@ AR			= ar -rc
 RM			= rm -f
 
 ${NAME}:	${OBJS}
-			${AR} ${NAME} ${OBJS}
+			@${AR} ${NAME} ${OBJS}
 
 ${OBJS}:	${SRCS}
-			${GCCW} -c ${SRCS}
+			@${GCCW} -c ${SRCS}
 
 ${BOBJS}:	${BSRCS}
-			${GCCW} -c ${BSRCS} ${SRCS}
+			@${GCCW} -c ${BSRCS} ${SRCS}
 
 all:		${NAME}
 
 bonus:		${BOBJS} ${OBJS}
-			${AR} ${NAME} ${BOBJS} ${OBJS}
+			@${AR} ${NAME} ${BOBJS} ${OBJS}
 
 clean:
-			${RM} ${OBJS} ${BOBJS}
+			@${RM} ${OBJS} ${BOBJS}
 
 fclean:		clean
-			${RM} ${NAME}
+			@${RM} ${NAME}
 
 re:			fclean all
 

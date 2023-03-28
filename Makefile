@@ -1,5 +1,5 @@
 NAME			= pipex
-
+				
 LIBFT			= libft
 
 SRCS			= mandatory/main.c \
@@ -24,28 +24,46 @@ CFLAGS			= -Wall -Wextra -Werror
 
 RM				= rm -f
 
-${NAME}:		${OBJS} ${LIBFT}/libft.a
-				${CC} ${CFLAGS} ${OBJS} -L ${LIBFT} -lft -o ${NAME}
+# Colors
+GREEN			= \033[92m
+YELLOW			= \033[0;33m
+BLUE			= \033[0;34m
+MAGENTA			= \033[0;35m
+ESCAPE			= \033[0m
+
+%.o: %.c		
+				@${CC} -c $^ -o $@
+
+${NAME}:		compiling ${OBJS} ${LIBFT}/libft.a
+				@${CC} ${CFLAGS} ${OBJS} -L ${LIBFT} -lft -o ${NAME}
+				@echo "${GREEN}******************  COMPILED  *******************${ESCAPE}"
+				@echo "${BLUE}*** EXECUTE: ${MAGENTA}./pipex infile cmd1 cmd2 outfile ${BLUE}***${ESCAPE}"
 
 ${LIBFT}/libft.a:
-				make bonus -C ${LIBFT}
+				@make bonus -C ${LIBFT}		
+
+compiling:			
+				@echo "${YELLOW}******************  COMPILING  ******************${ESCAPE}"
 
 all:			${NAME}
 
-bonus:			${BOBJS} ${LIBFT}/libft.a
-				${CC} ${CFLAGS} ${BOBJS} -L ${LIBFT} -lft -o ${NAME}
+bonus:			compiling ${BOBJS} ${LIBFT}/libft.a
+				@${CC} ${CFLAGS} ${BOBJS} -L ${LIBFT} -lft -o ${NAME}
+				@echo "${GREEN}******************  COMPILED  *******************${ESCAPE}"
+				@echo "${BLUE}* EXECUTE: ${MAGENTA}./pipex infile cmd1 cmd2 ... outfile ${BLUE}*${ESCAPE}"
 
 clean:	
-				${RM} ${OBJS}
-				${RM} ${BOBJS}
-				make clean -C ${LIBFT}
+				@${RM} ${OBJS}
+				@${RM} ${BOBJS}
+				@make clean -C ${LIBFT}
+				@echo "${GREEN}*******************  CLEANED  *******************${ESCAPE}"
 
 fclean:			clean
-				${RM} ${NAME}
-				make fclean -C ${LIBFT}
+				@${RM} ${NAME}
+				@make fclean -C ${LIBFT}
 
 re:				fclean all
 
 bre:			fclean bonus
 
-.PHONY:			all bonus clean fclean re bre
+.PHONY:			all bonus clean fclean re bre compiling
