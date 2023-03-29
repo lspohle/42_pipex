@@ -6,11 +6,11 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 09:21:26 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/29 00:18:42 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/29 22:37:09 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 static void	iterate_through_cmds(t_data *pipex)
 {
@@ -30,7 +30,7 @@ static void	iterate_through_cmds(t_data *pipex)
 		if (pipex->pid == 0)
 			process_child(pipex, pipex->argv[i]);
 		else
-			process_parent(pipex);
+			process_parent(pipex, i);
 	}
 }
 

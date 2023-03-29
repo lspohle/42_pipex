@@ -6,11 +6,11 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 21:53:03 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/29 00:17:55 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/29 22:36:47 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 static char	*get_env_path(char **envp)
 {
@@ -46,7 +46,7 @@ static char	*get_cmd_path(t_data *pipex, char *cmd)
 
 void	split_cmd(t_data *pipex, int i)
 {
-	pipex->cmd_split = check_for_special(pipex->argv[i]);
+	pipex->cmd_split = ft_pipex_split(pipex->argv[i]);
 	if (pipex->cmd_split == NULL)
 		exit_cmd_failed("split");
 	pipex->cmd_path = get_cmd_path(pipex, pipex->cmd_split[0]);
@@ -54,9 +54,15 @@ void	split_cmd(t_data *pipex, int i)
 		exit_cmd_not_found(pipex->cmd_split[0]);
 }
 
-void	process_parent(t_data *pipex)
+void	process_parent(t_data *pipex, int i)
 {
-	waitpid(pipex->pid, NULL, WNOHANG);
+	int	status;
+	int	exit_status;
+
+	waitpid(pipex->pid, &status, 0);
+	exit_status = WEXITSTATUS(status);
+	if (exit_status == 2 && i == pipex->argc - 2)
+		exit (exit_status);
 	close(pipex->pipe_fd[1]);
 	dup2(pipex->pipe_fd[0], STDIN_FILENO);
 	close(pipex->pipe_fd[0]);

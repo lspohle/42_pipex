@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 11:46:16 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/29 00:18:27 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/29 22:37:20 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 # include "../libft/libft.h"
 # include <fcntl.h>
 # include <errno.h>
@@ -42,10 +42,8 @@ void	exit_cmd_failed(char *cmd);
 void	exit_open_failed(char *str, int fd);
 void	exit_cmd_not_found(char *cmd);
 void	split_cmd(t_data *pipex, int i);
+char	**ft_pipex_split(char *cmd);
 void	process_child(t_data *pipex, char *cmd);
-void	process_parent(t_data *pipex);
-
-char	**check_for_special(char *cmd);
-int		count_quotes(int *i, char *str);
+void	process_parent(t_data *pipex, int i);
 
 #endif

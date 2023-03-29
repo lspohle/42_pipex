@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 09:21:26 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/29 02:27:43 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/29 21:59:42 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	iterate_through_cmds(t_data *pipex)
 		if (pipex->pid == 0)
 			process_child(pipex, pipex->argv[i]);
 		else
-			process_parent(pipex);
+			process_parent(pipex, i);
 	}
 }
 

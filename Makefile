@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/03/29 21:12:07 by lspohle           #+#    #+#              #
+#    Updated: 2023/03/29 22:34:12 by lspohle          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME			= pipex
 				
 LIBFT			= libft
@@ -5,14 +17,12 @@ LIBFT			= libft
 SRCS			= mandatory/main.c \
 				  mandatory/execute.c \
 				  mandatory/exit.c \
-				  mandatory/special_split.c \
-				  mandatory/split_utils.c
+				  mandatory/split.c
 
 BSRCS			= bonus/main_bonus.c \
 				  bonus/execute_bonus.c \
 				  bonus/exit_bonus.c \
-				  bonus/special_split_bonus.c \
-				  bonus/split_utils_bonus.c
+				  bonus/split_bonus.c \
 
 OBJS			= ${SRCS:.c=.o}
 

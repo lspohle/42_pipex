@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 21:48:24 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/29 14:44:25 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/29 23:01:03 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,14 @@ static char	*get_cmd_path(t_data *pipex, char *cmd)
 		pipex->env_paths++;
 		free (cmd_path);
 	}
-	while (*pipex->env_paths != NULL)
-		free (*pipex->env_paths);
-	free (*pipex->env_paths);
+	if ((*pipex->env_paths != NULL))
+		ft_free_dbl_ptr(pipex->env_paths);
 	return (NULL);
 }
 
 void	split_cmd(t_data *pipex, int i)
 {
-	pipex->cmd_split = check_for_special(pipex->argv[i]);
+	pipex->cmd_split = ft_pipex_split(pipex->argv[i]);
 	if (pipex->cmd_split == NULL)
 		exit_cmd_failed("split");
 	pipex->cmd_path = get_cmd_path(pipex, pipex->cmd_split[0]);
@@ -54,9 +53,15 @@ void	split_cmd(t_data *pipex, int i)
 		exit_cmd_not_found(pipex->cmd_split[0]);
 }
 
-void	process_parent(t_data *pipex)
+void	process_parent(t_data *pipex, int i)
 {
-	waitpid(pipex->pid, NULL, WNOHANG);
+	int	status;
+	int	exit_status;
+
+	waitpid(pipex->pid, &status, WNOHANG);
+	exit_status = WEXITSTATUS(status);
+	if (exit_status != 0 && i == pipex->argc - 2)
+		exit (exit_status);
 	close(pipex->pipe_fd[1]);
 	dup2(pipex->pipe_fd[0], STDIN_FILENO);
 	close(pipex->pipe_fd[0]);
@@ -78,3 +83,11 @@ void	process_child(t_data *pipex, char *cmd)
 	if (execve(pipex->cmd_path, pipex->cmd_split, pipex->envp) <= -1)
 		exit_cmd_not_found(pipex->cmd_split[0]);
 }
+
+// void	process_parent(t_data *pipex)
+// {
+// 	waitpid(pipex->pid, NULL, 0);
+// 	close(pipex->pipe_fd[1]);
+// 	dup2(pipex->pipe_fd[0], STDIN_FILENO);
+// 	close(pipex->pipe_fd[0]);
+// }

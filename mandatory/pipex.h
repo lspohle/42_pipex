@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 11:46:16 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/29 14:40:57 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/29 22:00:45 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,8 @@ void	exit_open_failed(char *str, int fd);
 void	exit_cmd_not_found(char *cmd);
 void	split_cmd(t_data *pipex, int i);
 void	process_child(t_data *pipex, char *cmd);
-void	process_parent(t_data *pipex);
+void	process_parent(t_data *pipex, int i);
 
-char	**check_for_special(char *cmd);
-void	count_quotes(int *i, char *str);
+char	**ft_pipex_split(char *cmd);
 
 #endif
