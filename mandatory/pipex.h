@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 11:46:16 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/28 13:48:14 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/29 00:14:55 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,16 @@ typedef struct s_data
 	int		file_fd[2];
 	pid_t	pid;
 	char	**env_paths;
+	char	**cmd_split;
+	char	*cmd_path;
 }				t_data;
 
 void	exit_cmd_failed(char *cmd);
 void	exit_open_failed(char *str, int fd);
 void	exit_cmd_not_found(char *cmd);
-void	process_parent(t_data *pipex);
+void	split_cmd(t_data *pipex, int i);
 void	process_child(t_data *pipex, char *cmd);
+void	process_parent(t_data *pipex);
 
 char	**check_for_special(char *cmd);
 int		count_quotes(int *i, char *str);

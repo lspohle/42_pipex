@@ -34,7 +34,7 @@ ESCAPE			= \033[0m
 %.o: %.c		
 				@${CC} -c $^ -o $@
 
-${NAME}:		compiling ${OBJS} ${LIBFT}/libft.a
+${NAME}:		norm ${OBJS} ${LIBFT}/libft.a
 				@${CC} ${CFLAGS} ${OBJS} -L ${LIBFT} -lft -o ${NAME}
 				@echo "${GREEN}******************  COMPILED  *******************${ESCAPE}"
 				@echo "${BLUE}*** EXECUTE: ${MAGENTA}./pipex infile cmd1 cmd2 outfile ${BLUE}***${ESCAPE}"
@@ -42,15 +42,30 @@ ${NAME}:		compiling ${OBJS} ${LIBFT}/libft.a
 ${LIBFT}/libft.a:
 				@make bonus -C ${LIBFT}		
 
-compiling:			
-				@echo "${YELLOW}******************  COMPILING  ******************${ESCAPE}"
-
 all:			${NAME}
 
-bonus:			compiling ${BOBJS} ${LIBFT}/libft.a
+bonus:			bnorm ${BOBJS} ${LIBFT}/libft.a
 				@${CC} ${CFLAGS} ${BOBJS} -L ${LIBFT} -lft -o ${NAME}
 				@echo "${GREEN}******************  COMPILED  *******************${ESCAPE}"
 				@echo "${BLUE}* EXECUTE: ${MAGENTA}./pipex infile cmd1 cmd2 ... outfile ${BLUE}*${ESCAPE}"
+
+norm:			
+				@echo "-------------------------------------------------"
+				@echo "${MAGENTA}******************  MANDATORY  ******************${ESCAPE}"
+				@echo "-------------------------------------------------"
+				@echo "${YELLOW}*****************  NORMINETTE  ******************${ESCAPE}"
+				@cd ${LIBFT} && norminette
+				@cd mandatory && norminette	
+				@echo "${YELLOW}******************  COMPILING  ******************${ESCAPE}"
+
+bnorm:		
+				@echo "-------------------------------------------------"
+				@echo "${MAGENTA}********************  BONUS  ********************${ESCAPE}"
+				@echo "-------------------------------------------------"
+				@echo "${YELLOW}*****************  NORMINETTE  ******************${ESCAPE}"
+				@cd ${LIBFT} && norminette
+				@cd bonus && norminette	
+				@echo "${YELLOW}******************  COMPILING  ******************${ESCAPE}"
 
 clean:	
 				@${RM} ${OBJS}
@@ -66,4 +81,4 @@ re:				fclean all
 
 bre:			fclean bonus
 
-.PHONY:			all bonus clean fclean re bre compiling
+.PHONY:			all bonus norm bnorm clean fclean re bre

@@ -6,13 +6,13 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 09:21:26 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/28 21:50:03 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/29 02:27:43 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int	iterate_through_cmds(t_data *pipex)
+static void	iterate_through_cmds(t_data *pipex)
 {
 	int		i;
 
@@ -21,6 +21,7 @@ static int	iterate_through_cmds(t_data *pipex)
 	i = 1;
 	while (pipex->argv[++i + 1] != NULL)
 	{
+		split_cmd(pipex, i);
 		if (pipe(pipex->pipe_fd) == -1)
 			exit_cmd_failed("pipe");
 		pipex->pid = fork();
@@ -31,7 +32,6 @@ static int	iterate_through_cmds(t_data *pipex)
 		else
 			process_parent(pipex);
 	}
-	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)

@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 21:48:24 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/28 21:48:26 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/29 02:24:52 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,14 @@ static char	*get_cmd_path(t_data *pipex, char *cmd)
 	return (NULL);
 }
 
-static void	execute_command(t_data *pipex, char *cmd)
+void	split_cmd(t_data *pipex, int i)
 {
-	char	**cmd_split;
-	char	*cmd_path;
-
-	cmd_split = check_for_special(cmd);
-	if (cmd_split == NULL)
+	pipex->cmd_split = check_for_special(pipex->argv[i]);
+	if (pipex->cmd_split == NULL)
 		exit_cmd_failed("split");
-	cmd_path = get_cmd_path(pipex, cmd_split[0]);
-	if (cmd_path == NULL)
-		exit_cmd_not_found(cmd_split[0]);
-	if (execve(cmd_path, cmd_split, pipex->envp) <= -1)
-		exit_cmd_failed("execve");
-	free(cmd_split);
-	free(cmd_path);
+	pipex->cmd_path = get_cmd_path(pipex, pipex->cmd_split[0]);
+	if (pipex->cmd_path == NULL && i == pipex->argc - 2)
+		exit_cmd_not_found(pipex->cmd_split[0]);
 }
 
 void	process_parent(t_data *pipex)
@@ -82,5 +75,6 @@ void	process_child(t_data *pipex, char *cmd)
 		dup2(pipex->file_fd[1], STDOUT_FILENO);
 		close(pipex->file_fd[1]);
 	}
-	execute_command(pipex, cmd);
+	if (execve(pipex->cmd_path, pipex->cmd_split, pipex->envp) <= -1)
+		exit_cmd_not_found(pipex->cmd_split[0]);
 }
