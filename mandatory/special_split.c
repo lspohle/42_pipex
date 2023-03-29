@@ -6,51 +6,58 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 09:26:15 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/29 02:28:04 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/29 17:29:23 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int	ft_count_char(char *s)
+static int ft_iterate_until_char(char *s, int i, char c, int *cnt)
 {
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		if (s[i] == ' ')
-		{
-			while (s[i] == ' ' && s[i])
-				i++;
-			count++;
-		}
-		count += count_quotes(&i, s);
+	if (c == ' ')
+		(*cnt)++;
+	while (s[i] != c && s[i])
 		i++;
-	}
-	return (count);
+	return (i);
 }
 
-static void	ft_count(char *s, size_t *i, size_t *len)
+static int	ft_cnt_sub_cmds(char *s)
 {
-	while (s[(*i)] == ' ' && s[(*i)])
-		(*i)++;
-	(*len) = (*i);
+	int	i;
+	int	cnt;
+
+	i = -1;
+	cnt = 1;
+	while (s[++i])
+	{
+		if (s[i] == ' ')
+			i = ft_iterate_until_char(s, i, ' ', &cnt);
+		if (s[i] == 34)
+			i = ft_iterate_until_char(s, ++i, 34, &cnt);
+		if (s[i] == 39)
+			i = ft_iterate_until_char(s, ++i, 39, &cnt);
+	}
+	return (cnt);
+}
+
+static void	ft_cnt(char *s, size_t *start, size_t *len)
+{
+	while (s[(*start)] == ' ' && s[(*start)])
+		(*start)++;
+	(*len) = (*start);
 	if (s[(*len)] == 34)
 	{
 		(*len)++;
 		while (s[(*len)] != 34 && s[(*len)] != '\0')
 			(*len)++;
-		(*i)++;
+		(*start)++;
 	}
 	else if (s[(*len)] == 39)
 	{
 		(*len)++;
 		while (s[(*len)] != 39 && s[(*len)] != '\0')
 			(*len)++;
-		(*i)++;
+		(*start)++;
 	}
 	else
 	{
@@ -75,45 +82,45 @@ static char	**ft_free(char **arr)
 
 static char	**mod_split(char *cmd)
 {
-	size_t			i;
-	size_t			len;
-	char			**sp_string;
-	int				index;
-
-	index = 0;
-	i = 0;
+	size_t	start;
+	size_t	len;
+	char	**substr;
+	int		cnt_sub_cmds;
+	
 	if (cmd == NULL)
 		return (NULL);
-	sp_string = malloc (sizeof(char *) * (ft_count_char(cmd) + 2));
-	if (sp_string == NULL)
+	substr = malloc (sizeof(char *) * (ft_cnt_sub_cmds(cmd) + 1));
+	if (substr == NULL)
 		return (NULL);
-	while (index < (ft_count_char(cmd) + 1))
+	cnt_sub_cmds = 0;
+	start = 0;
+	while (cnt_sub_cmds < ft_cnt_sub_cmds(cmd))
 	{
-		ft_count(cmd, &i, &len);
-		sp_string[index] = ft_substr(cmd, i, len - i);
-		if (!sp_string[index])
-			return (ft_free(sp_string));
-		index++;
-		i = len;
+		ft_cnt(cmd, &start, &len);
+		substr[cnt_sub_cmds] = ft_substr(cmd, start, len - start);
+		if (!substr[cnt_sub_cmds])
+			return (ft_free(substr));
+		cnt_sub_cmds++;
+		start = len;
 	}
-	sp_string[index] = NULL;
-	return (sp_string);
+	substr[cnt_sub_cmds] = NULL;
+	return (substr);
 }
 
 char	**check_for_special(char *cmd)
 {
 	int		i;
-	int		count;
+	int		cnt;
 
 	i = 0;
-	count = 0;
+	cnt = 0;
 	while (cmd[i])
 	{
 		if (cmd[i] == 34 || cmd[i] == 39)
-			count++;
+			cnt++;
 		i++;
 	}
-	if (count % 2 != 0)
+	if (cnt % 2 != 0)
 		exit_cmd_failed("syntax error");
 	return (mod_split(cmd));
 }

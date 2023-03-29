@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 11:46:16 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/29 00:14:55 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/29 14:40:57 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ void	process_child(t_data *pipex, char *cmd);
 void	process_parent(t_data *pipex);
 
 char	**check_for_special(char *cmd);
-int		count_quotes(int *i, char *str);
+void	count_quotes(int *i, char *str);
 
 #endif
