@@ -6,7 +6,7 @@
 #    By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/29 21:12:07 by lspohle           #+#    #+#              #
-#    Updated: 2023/03/31 11:27:16 by lspohle          ###   ########.fr        #
+#    Updated: 2023/03/31 14:35:04 by lspohle          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ ESCAPE			= \033[0m
 %.o: %.c		
 				@${CC} -c $^ -o $@
 
-${NAME}:		norm ${OBJS} ${LIBFT}/libft.a
+${NAME}:		${OBJS} ${LIBFT}/libft.a
 				@${CC} ${CFLAGS} ${OBJS} -L ${LIBFT} -lft -o ${NAME}
 				@echo "${GREEN}******************  COMPILED  *******************${ESCAPE}"
 				@echo "${BLUE}*** EXECUTE: ${MAGENTA}./pipex infile cmd1 cmd2 outfile ${BLUE}***${ESCAPE}"
@@ -54,7 +54,7 @@ ${LIBFT}/libft.a:
 
 all:			${NAME}
 
-bonus:			bnorm ${BOBJS} ${LIBFT}/libft.a
+bonus:			${BOBJS} ${LIBFT}/libft.a
 				@${CC} ${CFLAGS} ${BOBJS} -L ${LIBFT} -lft -o ${NAME}
 				@echo "${GREEN}******************  COMPILED  *******************${ESCAPE}"
 				@echo "${BLUE}* EXECUTE: ${MAGENTA}./pipex infile cmd1 cmd2 ... outfile ${BLUE}*${ESCAPE}"

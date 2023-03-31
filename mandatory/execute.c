@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 21:48:24 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/31 11:22:18 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/31 14:40:44 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ void	process_child(t_data *pipex, char *cmd)
 		close(pipex->file_fd[1]);
 	}
 	if (execve(pipex->cmd_path, pipex->cmd_split, pipex->envp) <= -1)
-	{
 		exit_cmd_not_found(pipex->cmd_split[0]);
-	}
 }
 
 void	process_parent(t_data *pipex)
@@ -79,7 +77,7 @@ void	process_parent(t_data *pipex)
 
 	if (waitpid(pipex->pid, &status, 0) == -1)
 	{
-		perror("waitpid() failed");
+		perror("waitpid: ");
 		exit(EXIT_FAILURE);
 	}
 	if (WIFEXITED(status))

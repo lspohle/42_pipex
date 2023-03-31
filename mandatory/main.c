@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 09:21:26 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/31 11:09:05 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/31 14:40:11 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ static void	iterate_through_cmds(t_data *pipex)
 	i = 1;
 	while (pipex->argv[++i + 1] != NULL)
 	{
-		split_cmd(pipex, i);
 		if (pipe(pipex->pipe_fd) == -1)
 			exit_cmd_failed("pipe");
 		pipex->pid = fork();
 		if (pipex->pid == -1)
 			exit_cmd_failed("fork");
+		split_cmd(pipex, i);
 		if (pipex->pid == 0)
 			process_child(pipex, pipex->argv[i]);
 		else

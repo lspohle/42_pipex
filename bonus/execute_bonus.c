@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 21:53:03 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/30 20:33:03 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/31 14:29:05 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,6 @@ void	split_cmd(t_data *pipex, int i)
 		exit_cmd_not_found(pipex->cmd_split[0]);
 }
 
-void	process_parent(t_data *pipex)
-{
-	waitpid(pipex->pid, NULL, WNOHANG);
-	close(pipex->pipe_fd[1]);
-	dup2(pipex->pipe_fd[0], STDIN_FILENO);
-	close(pipex->pipe_fd[0]);
-}
-
 void	process_child(t_data *pipex, char *cmd)
 {
 	close(pipex->pipe_fd[0]);
@@ -77,4 +69,25 @@ void	process_child(t_data *pipex, char *cmd)
 	}
 	if (execve(pipex->cmd_path, pipex->cmd_split, pipex->envp) <= -1)
 		exit_cmd_not_found(pipex->cmd_split[0]);
+}
+
+void	process_parent(t_data *pipex)
+{
+	int		status;
+	int		exit_status;
+
+	if (waitpid(pipex->pid, &status, 0) == -1)
+	{
+		perror("waitpid: ");
+		exit(EXIT_FAILURE);
+	}
+	if (WIFEXITED(status))
+	{
+		exit_status = WEXITSTATUS(status);
+		if (exit_status == 2)
+			exit(exit_status);
+	}
+	close(pipex->pipe_fd[1]);
+	dup2(pipex->pipe_fd[0], STDIN_FILENO);
+	close(pipex->pipe_fd[0]);
 }
