@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 11:46:16 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/30 20:32:03 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/04/01 17:37:07 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ typedef struct s_data
 
 void	exit_cmd_failed(char *cmd);
 void	exit_open_failed(char *str, int fd);
-void	exit_cmd_not_found(char *cmd);
-void	split_cmd(t_data *pipex, int i);
-char	**ft_pipex_split(char *cmd);
-void	process_child(t_data *pipex, char *cmd);
-void	process_parent(t_data *pipex);
+void	exit_cmd_not_found(char *cmd, t_data *pipex);
+void	ft_split_cmd_path(t_data *pipex, int i);
+void	ft_child_process(t_data *pipex, char *cmd);
+void	ft_parent_process(t_data *pipex);
+char	**ft_split_cmd(char *cmd);
 
 #endif

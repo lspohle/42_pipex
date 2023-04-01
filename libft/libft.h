@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:36:52 by lspohle           #+#    #+#             */
-/*   Updated: 2023/04/01 13:59:26 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/04/01 17:32:29 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ void	ft_lstiter(t_list *lst, void (*f)(void*));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 char	*get_next_line(int fd);
 int		ft_printf(const char *str, ...);
-void	ft_free_dbl_ptr(char **array);
+char	**ft_free_dbl_ptr(char **array);
 
 #endif

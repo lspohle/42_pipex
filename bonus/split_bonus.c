@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 09:26:15 by lspohle           #+#    #+#             */
-/*   Updated: 2023/04/01 14:00:20 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/04/01 17:38:35 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	ft_check_syntax(char *cmd)
 		exit_cmd_failed("syntax error");
 }
 
-char	**ft_pipex_split(char *cmd)
+char	**ft_split_cmd(char *cmd)
 {
 	char	**substr;
 	int		sub_cmds;
@@ -84,7 +84,7 @@ char	**ft_pipex_split(char *cmd)
 	ft_check_syntax(cmd);
 	if (cmd == NULL)
 		return (NULL);
-	substr = malloc (sizeof(char *) * (ft_cnt_sub_cmds(cmd) + 1));
+	substr = (char **) malloc (sizeof(char *) * (ft_cnt_sub_cmds(cmd) + 1));
 	if (substr == NULL)
 		return (NULL);
 	sub_cmds = 0;
@@ -94,10 +94,7 @@ char	**ft_pipex_split(char *cmd)
 		ft_locate_substr(cmd, &start, &len);
 		substr[sub_cmds] = ft_substr(cmd, start, len - start);
 		if (!substr[sub_cmds])
-		{
-			ft_free_dbl_ptr(substr);
-			return (NULL);
-		}
+			return (ft_free_dbl_ptr(substr));
 		sub_cmds++;
 		start = len;
 	}

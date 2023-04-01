@@ -6,13 +6,13 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 21:53:03 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/31 14:29:05 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/04/01 17:36:37 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-static char	*get_env_path(char **envp)
+static char	*ft_get_env_path(char **envp)
 {
 	if (*envp == NULL)
 		return ("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/ \
@@ -22,39 +22,45 @@ static char	*get_env_path(char **envp)
 	return (*envp + 5);
 }
 
-static char	*get_cmd_path(t_data *pipex, char *cmd)
+static char	*ft_get_cmd_path(t_data *pipex, char *cmd)
 {
 	char	*cmd_path;
+	char	*tmp;
+	int		i;
 
-	pipex->env_paths = ft_split(get_env_path(pipex->envp), ':');
+	pipex->env_paths = ft_split(ft_get_env_path(pipex->envp), ':');
 	if (pipex->env_paths == NULL)
-		free (pipex->env_paths);
-	while (*pipex->env_paths != NULL)
+		ft_free_dbl_ptr(pipex->env_paths);
+	i = -1;
+	while (pipex->env_paths[++i] != NULL)
 	{
-		*pipex->env_paths = ft_strjoin(*pipex->env_paths, "/");
-		cmd_path = ft_strjoin(*pipex->env_paths, cmd);
+		tmp = ft_strjoin(pipex->env_paths[i], "/");
+		free(pipex->env_paths[i]);
+		pipex->env_paths[i] = tmp;
+		cmd_path = ft_strjoin(pipex->env_paths[i], cmd);
 		if (access(cmd_path, F_OK) == 0)
+		{
+			ft_free_dbl_ptr(pipex->env_paths);
 			return (cmd_path);
-		pipex->env_paths++;
+		}
 		free (cmd_path);
 	}
-	while (*pipex->env_paths != NULL)
-		free (*pipex->env_paths);
-	free (*pipex->env_paths);
+	if ((pipex->env_paths[i] != NULL))
+		ft_free_dbl_ptr(pipex->env_paths);
 	return (NULL);
 }
 
-void	split_cmd(t_data *pipex, int i)
+void	ft_split_cmd_path(t_data *pipex, int i)
 {
-	pipex->cmd_split = ft_pipex_split(pipex->argv[i]);
+	pipex->cmd_split = ft_split_cmd(pipex->argv[i]);
 	if (pipex->cmd_split == NULL)
 		exit_cmd_failed("split");
-	pipex->cmd_path = get_cmd_path(pipex, pipex->cmd_split[0]);
+	pipex->cmd_path = ft_get_cmd_path(pipex, pipex->cmd_split[0]);
 	if (pipex->cmd_path == NULL && i == pipex->argc - 2)
-		exit_cmd_not_found(pipex->cmd_split[0]);
+		exit_cmd_not_found(pipex->cmd_split[0], pipex);
 }
 
-void	process_child(t_data *pipex, char *cmd)
+void	ft_child_process(t_data *pipex, char *cmd)
 {
 	close(pipex->pipe_fd[0]);
 	dup2(pipex->pipe_fd[1], STDOUT_FILENO);
@@ -68,10 +74,10 @@ void	process_child(t_data *pipex, char *cmd)
 		close(pipex->file_fd[1]);
 	}
 	if (execve(pipex->cmd_path, pipex->cmd_split, pipex->envp) <= -1)
-		exit_cmd_not_found(pipex->cmd_split[0]);
+		exit_cmd_not_found(pipex->cmd_split[0], pipex);
 }
 
-void	process_parent(t_data *pipex)
+void	ft_parent_process(t_data *pipex)
 {
 	int		status;
 	int		exit_status;
