@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 09:21:26 by lspohle           #+#    #+#             */
-/*   Updated: 2023/04/01 17:36:56 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/04/01 18:22:00 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	ft_iterate_through_cmds(t_data *pipex)
 		free(pipex->cmd_path);
 		pipex->cmd_path = NULL;
 	}
+	close(pipex->file_fd[1]);
 }
 
 int	main(int argc, char **argv, char **envp)

@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 21:48:24 by lspohle           #+#    #+#             */
-/*   Updated: 2023/04/01 18:13:34 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/04/01 18:27:17 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	ft_child_process(t_data *pipex, char *cmd)
 	close(pipex->pipe_fd[0]);
 	dup2(pipex->pipe_fd[1], STDOUT_FILENO);
 	close(pipex->pipe_fd[1]);
-	close(pipex->file_fd[1]);
 	if (ft_strncmp(cmd, pipex->argv[pipex->argc - 2], sizeof(cmd)) == 0)
 	{
 		close(pipex->pipe_fd[1]);
