@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 21:53:03 by lspohle           #+#    #+#             */
-/*   Updated: 2023/04/01 17:36:37 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/04/01 17:46:25 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ void	ft_split_cmd_path(t_data *pipex, int i)
 	pipex->cmd_split = ft_split_cmd(pipex->argv[i]);
 	if (pipex->cmd_split == NULL)
 		exit_cmd_failed("split");
-	pipex->cmd_path = ft_get_cmd_path(pipex, pipex->cmd_split[0]);
+	if (pipex->cmd_split[0][0] == '/')
+		pipex->cmd_path = ft_strdup(pipex->cmd_split[0]);
+	else
+		pipex->cmd_path = ft_get_cmd_path(pipex, pipex->cmd_split[0]);
 	if (pipex->cmd_path == NULL && i == pipex->argc - 2)
 		exit_cmd_not_found(pipex->cmd_split[0], pipex);
 }
