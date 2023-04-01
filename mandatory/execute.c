@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 21:48:24 by lspohle           #+#    #+#             */
-/*   Updated: 2023/04/01 13:14:32 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/04/01 13:53:01 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,33 +26,26 @@ static char	*ft_get_cmd_path(t_data *pipex, char *cmd)
 {
 	char	*cmd_path;
 	char	*tmp;
+	int		i;
 
 	pipex->env_paths = ft_split(ft_get_env_path(pipex->envp), ':');
 	if (pipex->env_paths == NULL)
 		ft_free_dbl_ptr(pipex->env_paths);
-	while (*pipex->env_paths != NULL)
+	i = -1;
+	while (pipex->env_paths[++i] != NULL)
 	{
-		tmp = ft_strjoin(*pipex->env_paths, "/");
-		free(*pipex->env_paths);
-		*pipex->env_paths = NULL;
-		*pipex->env_paths = tmp;
-		cmd_path = ft_strjoin(*pipex->env_paths, cmd);
+		tmp = ft_strjoin(pipex->env_paths[i], "/");
+		free(pipex->env_paths[i]);
+		pipex->env_paths[i] = tmp;
+		cmd_path = ft_strjoin(pipex->env_paths[i], cmd);
 		if (access(cmd_path, F_OK) == 0)
 		{
-			while (*pipex->env_paths)
-			{
-				free(*pipex->env_paths);
-				pipex->env_paths++;
-			}
-			free(*pipex->env_paths);
+			ft_free_dbl_ptr(pipex->env_paths);
 			return (cmd_path);
 		}
 		free (cmd_path);
-		cmd_path = NULL;
-		free(*pipex->env_paths);
-		pipex->env_paths++;
 	}
-	if ((*pipex->env_paths != NULL))
+	if ((pipex->env_paths[i] != NULL))
 		ft_free_dbl_ptr(pipex->env_paths);
 	return (NULL);
 }

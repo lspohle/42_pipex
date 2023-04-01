@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 09:26:15 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/29 21:11:56 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/04/01 14:00:20 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ char	**ft_pipex_split(char *cmd)
 		ft_locate_substr(cmd, &start, &len);
 		substr[sub_cmds] = ft_substr(cmd, start, len - start);
 		if (!substr[sub_cmds])
-			return (ft_free_dbl_ptr(substr));
+		{
+			ft_free_dbl_ptr(substr);
+			return (NULL);
+		}
 		sub_cmds++;
 		start = len;
 	}

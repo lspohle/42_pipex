@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:36:52 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/31 15:37:52 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/04/01 13:59:26 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *c, int fd);
 void	ft_putendl_fd(char *c, int fd);
 void	ft_putnbr_fd(int n, int fd);
-typedef struct s_list // creating an alias for struct -> s_list
+typedef struct s_list
 {
 	char			*content;
 	struct s_list	*next;
@@ -69,6 +69,6 @@ void	ft_lstiter(t_list *lst, void (*f)(void*));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 char	*get_next_line(int fd);
 int		ft_printf(const char *str, ...);
-char	**ft_free_dbl_ptr(char **arr);
+void	ft_free_dbl_ptr(char **array);
 
 #endif
