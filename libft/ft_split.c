@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 17:06:55 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/22 13:45:33 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/31 15:35:54 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,6 @@
 //     -> external functions: malloc(3), free
 
 #include "libft.h"
-
-static int	get_substring(const char *s, char c, char **substr, int i)
-{
-	char			*tmp;
-	unsigned int	start;
-	int				specials;
-
-	start = i;
-	specials = 0;
-	while (specials % 2 == 1 || (s[i] != c && s[i] != '\0'))
-	{
-		if (s[i] == 39 || s[i] == 34)
-			specials++;
-		i++;
-	}
-	*substr = ft_substr(s, start, i - start);
-	if (specials > 0)
-	{
-		tmp = ft_strtrim(*substr);
-		free(*substr);
-		*substr = tmp;
-	}
-	return (++i);
-}
 
 static int	ft_count_strings(const char *s, char c)
 {
@@ -69,20 +45,27 @@ static int	ft_count_strings(const char *s, char c)
 static char	**ft_split_string(char **result, const char *s, char c)
 {
 	unsigned int	i;
+	unsigned int	start;
 	unsigned int	j;
 
-	i = 0;
+	i = -1;
 	j = 0;
-	while (s[i] != '\0')
+	while (s[++i] != '\0')
 	{
-		i = get_substring(s, c, &result[j], i);
-		if (!result[j++])
+		if (s[i] != c)
 		{
-			free(result);
-			return (NULL);
+			start = i;
+			while (s[i] != c && s[i] != '\0')
+				i++;
+			result[j] = ft_substr(s, start, i - start);
+			if (!result[j++])
+			{
+				free(result);
+				return (NULL);
+			}
+			if (s[i] == '\0')
+				break ;
 		}
-		if (s[i - 1] == '\0')
-			break ;
 	}
 	result[j] = NULL;
 	return (result);

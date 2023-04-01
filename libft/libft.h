@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:36:52 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/29 19:39:22 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/31 15:37:52 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	*ft_calloc(size_t count, size_t size);
 char	*ft_strdup(const char *src);
 char	*ft_substr(const char *s, unsigned int start, size_t len);
 char	*ft_strjoin(const char *s1, const char *s2);
-char	*ft_strtrim(const char *s1);
+char	*ft_strtrim(const char *s1, const char *set);
 char	**ft_split(const char *str, char c);
 char	*ft_itoa(int n);
 char	*ft_strmapi(const char *s, char (*f)(unsigned int, char));

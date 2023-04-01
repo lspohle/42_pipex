@@ -6,7 +6,7 @@
 #    By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/29 21:12:07 by lspohle           #+#    #+#              #
-#    Updated: 2023/03/31 14:35:04 by lspohle          ###   ########.fr        #
+#    Updated: 2023/03/31 14:47:18 by lspohle          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ BOBJS			= ${BSRCS:.c=.o}
 
 CC				= cc
 
-CFLAGS			= -Wall -Wextra -Werror 
+CFLAGS			= -Wall -Wextra -Werror -g
 
 RM				= rm -f
 

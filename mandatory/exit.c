@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 12:53:46 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/31 14:37:09 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/03/31 15:43:52 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ void	exit_cmd_failed(char *cmd)
 	exit (1);
 }
 
-void	exit_cmd_not_found(char *cmd)
+void	exit_cmd_not_found(char *cmd, t_data *pipex)
 {
+	free(pipex->cmd_path);
+	ft_free_dbl_ptr(pipex->cmd_split);
 	write(STDERR_FILENO, "pipex: ", 7);
 	ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);

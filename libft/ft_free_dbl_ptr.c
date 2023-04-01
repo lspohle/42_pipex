@@ -6,7 +6,7 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 19:36:03 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/29 20:57:12 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/04/01 13:13:00 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 char	**ft_free_dbl_ptr(char **arr)
 {
-	while (*arr)
+	int i = -1;
+	while (arr[++i])
 	{
-		free(*arr);
-		*arr = NULL;
-		arr++;
+		free(arr[i]);
+		//arr[i] = NULL;
 	}
-	free(*arr);
-	*arr = NULL;
+	free(arr);
+	//arr[i] = NULL;
 	return (NULL);
 }

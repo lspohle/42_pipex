@@ -6,13 +6,13 @@
 /*   By: lspohle <lspohle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 09:21:26 by lspohle           #+#    #+#             */
-/*   Updated: 2023/03/31 14:40:11 by lspohle          ###   ########.fr       */
+/*   Updated: 2023/04/01 12:51:55 by lspohle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	iterate_through_cmds(t_data *pipex)
+static void	ft_iterate_through_cmds(t_data *pipex)
 {
 	int		i;
 
@@ -21,16 +21,19 @@ static void	iterate_through_cmds(t_data *pipex)
 	i = 1;
 	while (pipex->argv[++i + 1] != NULL)
 	{
+		ft_split_cmd_path(pipex, i);
 		if (pipe(pipex->pipe_fd) == -1)
 			exit_cmd_failed("pipe");
 		pipex->pid = fork();
 		if (pipex->pid == -1)
 			exit_cmd_failed("fork");
-		split_cmd(pipex, i);
 		if (pipex->pid == 0)
-			process_child(pipex, pipex->argv[i]);
+			ft_child_process(pipex, pipex->argv[i]);
 		else
-			process_parent(pipex);
+			ft_parent_process(pipex);
+		ft_free_dbl_ptr(pipex->cmd_split);
+		free(pipex->cmd_path);
+		pipex->cmd_path = NULL;
 	}
 }
 
@@ -50,6 +53,6 @@ int	main(int argc, char **argv, char **envp)
 	pipex.file_fd[0] = open(pipex.argv[1], O_RDONLY);
 	if (pipex.file_fd[0] == -1)
 		exit_open_failed(pipex.argv[1], pipex.file_fd[1]);
-	iterate_through_cmds(&pipex);
+	ft_iterate_through_cmds(&pipex);
 	return (0);
 }
