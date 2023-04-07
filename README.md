@@ -8,103 +8,73 @@
 
 <a name="0"></a>
 # [Table of content](#0)
-- [Introduction to your role as a player](#1)
-- [Play and fight all odds](#2)
-- [Requirements for the maps](#3)
-- [Your benefits of So Long](#4)
-- [Installation](#5)
-- [Implementation](#6)
-- [Examples](#7)
+- [Introduction](#1)
+- [Requirements that must be met](#2)
+- [Possible errors that must be handled](#3)
+- [Installation](#4)
+- [Implementation](#5)
+- [Resources](#6)
 
 <a name="1"></a>
 # [Introduction](#1)
-Note that I used my own [libft](https://github.com/lspohle/42_so_long/blob/main/libft) for [printf](https://github.com/lspohle/42_so_long/blob/main/libft/ft_printf.c), [memset](https://github.com/lspohle/42_so_long/blob/main/libft/ft_memset.c) and [strncmp](https://github.com/lspohle/42_so_long/blob/main/libft/ft_strncmp.c). The libft also contains the function [get_next_line](https://github.com/lspohle/42_so_long/blob/main/libft/get_next_line_bonus.c) to read from a file descriptor. 
+Note that I used my own [libft](https://github.com/lspohle/42_pipex/blob/main/libft) [strncmp](https://github.com/lspohle/42_pipex/blob/main/libft/ft_strncmp.c) and further functions.
 
-|Character|Description|Image|Significance|
-|:--:|:--------:|:----:|:----:|
-|0|Empty Space|empty.xpm|**You may step on the very ground of the map.**|
-|1|Wall|wall.xpm|**You cannot move through the walls of the map.**|
-|C|Collectible|heart1.xpm/heart2.xpm|**You need to collect the displayed hearts. If you have collected all of them you can come together with your love.**|
-|P|Player|woman.xpm/man.xpm|**You are the player. Depending on the map you choose you will start at different positions.**|
-|E|Loved one|woman.xpm/man.xpm|**You want to come together with your loved one. But you will only become a couple if you have collected all the displayed hearts. You have the chance to fight all odds together!**|
-|R|Rival|broken_heart1.xpm/broken_heart2.xpm|**You need to take care of yourself. Do not step onto those spaces! As soon as you do your heart will break and the game is over. The same applies for your loved one.**|
+|Position of Argument|Argument|Description|
+|:--:|:--------:|:----:|
+|0|./pipex|The name of the program that will be executed.|
+|1|file1|The file from which will be read.|
+|2|cmd1|The first shell command that will be executed.|
+|3|cmd2|The second shell command that will be executed.|
+|4|file1|The file into which will be written.|
 
 <a name="2"></a>
-# [Play and fight all odds](#2)
-### In the following the key codes for you as **the player** are defined:
-|Key code|Description|Function|
-|:--:|:--------:|:--------:|
-|123|Left arrow|**Moves left**|
-|124|Right arrow|**Moves right**|
-|125|Down arrow|**Moves down**|
-|126|Up arrow|**Moves up**|
-|53|Escape|**Closes the window and terminates the game**|
-
-### In the following the key codes for you as **the loved one** are defined:
-|Key code|Description|Function|
-|:--:|:--------:|:--------:|
-|0|A|**Moves left**|
-|2|D|**Moves right**|
-|1|S|**Moves down**|
-|13|W|**Moves up**|
-|53|Escape|**Closes the window and terminates the game**|
+# [Requirements that must be met](#2)
+- [x] It must behave exactly the same as the following shell command: < file1 cmd1 | cmd2 > file2.
+- [x] It must take the following four arguments: file1 cmd1 cmd2 file2.
+- [x] It must read from the first argument `file1` if necessary.
+- [x] It must execute the second argument `cmd1` reading from `file1` and writing to the `pipe`.
+- [x] It must execute the third argument `cmd2` reading from the `pipe` and writing into the `file2`.
+- [x] It must write into the forth argument `file2`.
+- [x] It must free all memory that has been allocated on the heap before exiting the process.
+- [x] It must close all open file descriptors (not only those of the parent but also the ones of the child process).
+- [x] It must comply with the style guide of 42 `Norminette`.
 
 <a name="3"></a>
-# [Requirements for the map](#3)
-- [x] It must be **rectangular**.
-- [x] It must be **rectangular**.
-- [x] It must be **surrounded by walls**.
-- [x] It must contain exactly **one exit**.
-- [x] It must contain exactly **one starting position**.
-- [x] It must contain **a valid path**.
-- [x] It must contain **at least one collectible**.
+# [Possible errors that must be handled](#3)
+- [x] It must handle the errors like the shell command.
+- [x] It must throw an error if the user entered not exactely five argument.
+- [x] It must throw an error if `file1` does not exist.
+- [x] It must truncate the existing `file2` if it is not empty.
+- [x] It must create a `file2` with appropriate permissions to write into if such does not exist.
+- [x] It must execute `cmd2` even if `cmd1` failed.
+- [x] It must throw an error if `cmd2` failed even if `cmd1` was executed successfully.
+- [x] It must work even if single or double quotes are included in the command itself (awk '{count++} END {print count}').
+- [x] It must exit in a clean manner just like the shell command does.
 
 <a name="4"></a>
-# [Your benefits of So Long](#4)
-  
--  **Installed and implemented easily**
-
-     - [x] You can easily implement *So Long* as explained in [Installation](#3) and [Implementation](#4).
--  **Customize the existing maps**
-
-     - [x] You can easily customize the existing maps. The program will check whether your map is valid and meets the [requirements](#5).
--  **Create your own map easily**
-
-      - [x] You can easily modify the content of the directory [maps](https://github.com/lspohle/PRIVATE_a_little_valentine/tree/main/maps) and create your own map.
--  **Create your own images easily**
-
-      - [x] You can easily modify the images of the directory [images](https://github.com/lspohle/PRIVATE_a_little_valentine/tree/main/images) and create your own storyline.
--  **Adjust the colors or the content of the output in the shell**
-
-      - [x] You may easily adjust the colors of the output in the shell/in the window by modifying the constants of the colors in [so_long.h](https://github.com/lspohle/42_so_long/blob/main/srcs/so_long.h) or [bonus_so_long.h](https://github.com/lspohle/42_so_long/blob/main/srcs/bonus_so_long.h). If you want to adjust the content of the output, immerse yourself in [display_output.c](https://github.com/lspohle/42_so_long/blob/main/srcs/display_output.c) or [bonus_display_output.c](https://github.com/lspohle/42_so_long/blob/main/srcs/bonus_display_output.c).
--  **Works on all devices with macOS**
-
-      - [x] *So Long* works on the operating system macOS. You do not need to install anything. All necessary installations are either pre-installed on macOS or included in the repository of *So Long*. Please keep in mind that you do need to download the MiniLibX from the project page on intra.
-
-<a name="5"></a>
-# [Installation](#5)
-- Install *So Long* by cloning the current repository. If you do not have an SSH key yet, you need to use the command using https. Otherwise, it is up to you to use either SSH or https.
+# [Installation](#4)
+- Install *Pipex* by cloning the current repository. If you do not have an SSH key yet, you need to use the command using https. Otherwise, it is up to you to use either SSH or https.
      - SSH
       
-      git clone git@github.com:lspohle/42_so_long.git
+      git clone git@github.com:lspohle/42_pipex.git
           
      - HTTPS
       
-      git clone https://github.com/lspohle/42_so_long.git
+      git clone https://github.com:lspohle/42_pipex.git
       
-- Download the graphical library MiniLibX on intra from [the project page of So Long](https://projects.intra.42.fr/so_long/mine). Select a version of the MiniLibX that works for the operating system you're currently using. Add the downloaded MiniLibX to the repository `42_so_long`you cloned before. Please make sure that the directory in which the content of the MiniLibX is stored is called `minilibx`.
-      
-      minilibx
-- Go into the directory `srcs`and run the command `make`to compile.
+- Go into the directory `42_pipex` and run the command `make` to compile. Run the command `make bonus` instead of `make` to enable entering multiple commands.
      
       make
-- Play So Long by executing the program.
-    
-      ./so_long ../maps/[the_map_of_your_choice] [the_player_of_your_choice] [the_loved_one_of_your_choice]
       
-<a name="6"></a>
-# [Implementation](#6)
-- Ready to challenge youself? Find your love! 
-Select a map of your choice. Take a look at the them in [maps](https://github.com/lspohle/42_so_long/tree/main/maps). Choose the character you identify most with - either woman, man or other. Last but not least: Choose a character that shall represent your loved one.
+<a name="5"></a>
+# [Implementation](#5)
+- It's completely up to you! You can choose the names of your files and the shell commands you wish to execute. *Pipex* is executed as follows.
 
-       ./so_long ../maps/[the_map_of_your_choice] [the_player_of_your_choice] [the_loved_one_of_your_choice]
+       ./pipex infile cmd1 cmd2 outfile
+- Please keep in mind that `Pipex` takes arguments from the terminal. Thus, you must use single or double quotation marks for every `cmd`that is splitted by space. The following example is for demonstration.
+
+       ./pipex infile "ls -l" "grep Makefile" outfile
+
+<a name="6"></a>
+# [Resources](#6)
+- [Unix Processes in C](https://youtube.com/playlist?list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY)
