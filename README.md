@@ -78,3 +78,15 @@ Note that I used my own [libft](https://github.com/lspohle/42_pipex/blob/main/li
 <a name="6"></a>
 # [Resources](#6)
 - [Unix Processes in C](https://youtube.com/playlist?list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY)
+     - fork()
+     - wait()
+     - waitpid()
+     - pipe()
+     - dub()
+     - dub2()
+     - ...
+- [File Descriptors](https://www.codequoi.com/en/handling-a-file-by-its-descriptor-in-c/)
+     - STDIN_FILENO
+     - STDOUT_FILENO
+     - STDERR_FILENO
+- [Piping Strategy](https://www.youtube.com/watch?v=-J-nX4aiSP4&list=PLKUb7MEve0TjHQSKUWChAWyJPCpYMRovO&index=65)
